@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "maurice.spacex",
+  "name": "Launchpad",
+  "version": "1.0.0",
+  "author": "maurice",
+  "license": "MIT",
+  "description": "A simple SpaceX launch tracker: countdown in the bar, a launch scene that comes alive as the countdown runs, and notifications a day, an hour, and ten minutes out — plus alerts when a launch is scrubbed or rescheduled.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Launchpad",
+    "description": "SpaceX launch countdown with a canvas launch scene and scrub alerts.",
+    "category": "Space",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "refreshMinutes": 30,
+      "notify24h": true,
+      "notify1h": true,
+      "notify10m": true,
+      "notifyChanges": true
+    },
+    "schema": [
+      {
+        "key": "refreshMinutes",
+        "type": "integer",
+        "label": "Refresh interval (minutes)",
+        "min": 5,
+        "max": 180,
+        "step": 5,
+        "defaultValue": 30
+      },
+      {
+        "key": "notify24h",
+        "type": "boolean",
+        "label": "Notify one day before launch",
+        "defaultValue": true
+      },
+      {
+        "key": "notify1h",
+        "type": "boolean",
+        "label": "Notify one hour before launch",
+        "defaultValue": true
+      },
+      {
+        "key": "notify10m",
+        "type": "boolean",
+        "label": "Notify ten minutes before launch",
+        "defaultValue": true
+      },
+      {
+        "key": "notifyChanges",
+        "type": "boolean",
+        "label": "Notify on scrubs and reschedules",
+        "defaultValue": true
+      }
+    ]
+  }
+}
