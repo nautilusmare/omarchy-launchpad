@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "maurice.spacex",
-  "name": "Launchpad",
+  "name": "SpaceX Launch Tracker",
   "version": "1.0.0",
   "author": "maurice",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "barWidget": "BarWidget.qml"
   },
   "barWidget": {
-    "displayName": "Launchpad",
+    "displayName": "SpaceX Launch Tracker",
     "description": "SpaceX launch countdown with a canvas launch scene and scrub alerts.",
     "category": "Space",
     "allowMultiple": false,

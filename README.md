@@ -1,8 +1,8 @@
-# Launchpad
+# SpaceX Launch Tracker
 
 **SpaceX launches, at a glance.**
 
-![Launchpad panel](preview.png)
+![SpaceX Launch Tracker panel](preview.png)
 
 A simple launch tracker for [Omarchy](https://omarchy.org/) — a rocket icon in
 the bar (with a live countdown only in the last hour), and a click away from

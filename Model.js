@@ -1,4 +1,4 @@
-// Pure logic for the Launchpad (SpaceX) plugin. Qt-free so it stays testable
+// Pure logic for the SpaceX Launch Tracker plugin. Qt-free so it stays testable
 // under node: functions and `var` only, no arrow functions, no optional
 // chaining. Data comes from Launch Library 2 (thespacedevs), which needs no
 // key and returns the next SpaceX launches already sorted by NET.

@@ -6,7 +6,7 @@ import qs.Commons
 import qs.Ui
 import "Model.js" as Model
 
-// Launchpad — a simple SpaceX launch tracker. Bar shows a rocket icon, plus a
+// SpaceX Launch Tracker — a simple SpaceX launch tracker. Bar shows a rocket icon, plus a
 // live countdown only in the last hour before launch; the panel shows an
 // animated launch scene, the mission, pad times, and a watch link (with a play
 // button that replays the whole launch sequence in ~35 seconds);
@@ -136,7 +136,7 @@ Panel {
     var content = Model.notificationContent(ev)
     var argv = [
       root.notifyBin,
-      "--app-name", "Launchpad",
+      "--app-name", "SpaceX Launch Tracker",
       "-u", content.urgency,
       "-g", content.glyph,
       "-r", String(Model.replaceId(ev.launch.id, ev.kind)),
