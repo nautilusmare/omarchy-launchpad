@@ -77,9 +77,8 @@ Panel {
     }
   }
 
-  onOpenedChanged: {
-    if (!root.opened) root.expanded = false
-  }
+  // onOpenedChanged moved down to avoid duplicate handler placement
+
 
   // Fast polling around a precise T-0 so holds, slips, liftoffs and the
   // post-flight result surface quickly: every 5 minutes from 30 minutes
@@ -244,6 +243,7 @@ Panel {
   }
 
   onOpenedChanged: {
+    if (!root.opened) root.expanded = false
     if (!root.opened) return
     root.nowMs = Date.now()
     if (root.stale) root.refreshNow()
