@@ -96,10 +96,8 @@ Panel {
 
   // Post-launch recap: once the API reports Success/Failure, the countdown
   // block becomes a result card for the rest of the grace window.
-  readonly property bool recapActive: root.next !== null
-    && /^(success|failure)$/i.test(root.next.statusAbbrev || "")
-  readonly property bool recapSuccess: root.recapActive
-    && /^success$/i.test(root.next.statusAbbrev || "")
+  readonly property bool recapActive: root.next !== null && Model.launchResult(root.next) !== ""
+  readonly property bool recapSuccess: root.next !== null && Model.launchResult(root.next) === "success"
 
   // Auto-advances to the next launch once one passes its grace window.
   readonly property var next: Model.pickNext(root.launches, root.nowMs)

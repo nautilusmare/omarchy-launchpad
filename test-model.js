@@ -183,6 +183,27 @@ check("flightLine full", Model.flightLine(rich) === "FALCON 9 BLOCK 5 · 637 FLO
 check("flightLine unknown", Model.flightLine({ vehicle: "Falcon 9", flightsFlown: NaN }) === "")
 check("flightLine null", Model.flightLine(null) === "")
 
+// --- launchResult: no LIVE once the outcome is known ------------------------
+check("result success", Model.launchResult({ statusAbbrev: "Success" }) === "success")
+check("result failure", Model.launchResult({ statusAbbrev: "Failure" }) === "failure")
+check("result open", Model.launchResult({ statusAbbrev: "Go" }) === "")
+check("result null", Model.launchResult(null) === "")
+check("bar silent after success", (function () {
+  var r = Model.normalizeLaunch(fixture.results[0])
+  r.statusAbbrev = "Success"
+  return Model.formatBarCountdown(r, r.netMs + 3600000) === ""
+})())
+check("bar silent after failure", (function () {
+  var r = Model.normalizeLaunch(fixture.results[0])
+  r.statusAbbrev = "Failure"
+  return Model.formatBarCountdown(r, r.netMs + 3600000) === ""
+})())
+check("bar live when outcome open", (function () {
+  var r = Model.normalizeLaunch(fixture.results[0])
+  r.statusAbbrev = "Go"
+  return Model.formatBarCountdown(r, r.netMs + 3600000) === "LIVE"
+})())
+
 // --- planNotifications: first sight is silent ------------------------------
 var nowMs = ms("2026-10-09T07:39:00Z") // exactly T-24h for abc
 var plan1 = Model.planNotifications(parsed, Model.emptyState(), nowMs)

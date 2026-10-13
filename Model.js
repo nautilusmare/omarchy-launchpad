@@ -488,7 +488,12 @@ function windowCaption(rec, nowMs) {
 function formatBarCountdown(rec, nowMs) {
   if (!rec || !isFinite(rec.netMs)) return "";
   var remaining = rec.netMs - nowMs;
-  if (remaining <= 0) return remaining > -LIFTOFF_GRACE_MS ? "LIVE" : "";
+  // A known result ends the show: no LIVE once the outcome is published,
+  // just the icon. Unknown outcome inside the grace window is genuinely live.
+  if (remaining <= 0) {
+    if (launchResult(rec) !== "") return "";
+    return remaining > -LIFTOFF_GRACE_MS ? "LIVE" : "";
+  }
   if (!rec.precise) return "";
   if (remaining > 3600000) return "";
   return formatClock(remaining);
@@ -528,6 +533,17 @@ function statusEventKind(toAbbrev) {
   if (t.indexOf("failure") !== -1) return "failure";
   if (t.indexOf("go") !== -1) return "go";
   return "status";
+}
+
+// Terminal result of a launch, from its lifecycle status: "success",
+// "failure", or "" while the outcome is still open. Shared by the bar
+// (no LIVE once the result is known) and the panel recap card.
+function launchResult(rec) {
+  if (!rec) return "";
+  var a = String(rec.statusAbbrev || "").toLowerCase();
+  if (a === "success") return "success";
+  if (a === "failure") return "failure";
+  return "";
 }
 
 // Scene truth override from the launch's real lifecycle status. "hold"
@@ -792,6 +808,7 @@ if (typeof module !== "undefined") {
     firedAtFirstSight: firedAtFirstSight,
     statusEventKind: statusEventKind,
     sceneOverride: sceneOverride,
+    launchResult: launchResult,
     planNotifications: planNotifications,
     enabledTierKeys: enabledTierKeys,
     filterEvents: filterEvents,
