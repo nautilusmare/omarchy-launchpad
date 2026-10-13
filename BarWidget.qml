@@ -115,6 +115,7 @@ Panel {
     return ""
   })()
   readonly property bool urgentNow: root.next !== null && root.next.precise
+    && Model.launchResult(root.next) === ""
     && root.next.netMs - root.nowMs <= (root.noteworthy ? 86400000 : 3600000)
     && root.next.netMs - root.nowMs > -Model.LIFTOFF_GRACE_MS
   readonly property color foreground: bar ? bar.foreground : Color.foreground
