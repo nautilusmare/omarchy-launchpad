@@ -68,9 +68,9 @@ Daylight for the sky is the real sun elevation at the pad
 status when it is known. The ascent, milestone and landing visuals are stylised
 timings, not telemetry — no free API publishes position, speed or stage events.
 (The library has a `setTelemetry` display hook, but there is no free live data
-to feed it.) Within half an hour of T-0 the plugin polls every 4 minutes
-instead of every 30, so holds, slips and liftoffs surface quickly — still well
-inside the 15/hour free quota. Frames advance only while the panel is open, so
+to feed it.) Within half an hour of T-0 the plugin polls every 5 minutes
+instead of every 30 — through the first hour after liftoff, so the result
+lands on its own — still well inside the 15/hour free quota. Frames advance only while the panel is open, so
 a closed panel costs nothing; hours out the scene drifts at 5fps, stepping up
 to 20fps only for the flight itself. Star, plume and trail draws are batched,
 so an open panel costs a few percent of one core.

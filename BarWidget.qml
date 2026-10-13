@@ -73,12 +73,16 @@ Panel {
     if (root.holdActive) root.holdFreezeMs = root.nowMs
   }
 
-  // Within half an hour of a precise T-0, poll every 4 minutes so holds,
-  // slips and liftoffs surface quickly. 30min/4min ≈ 8 calls in the window
-  // plus the base tick — comfortably inside the 15/hour free quota.
+  // Fast polling around a precise T-0 so holds, slips, liftoffs and the
+  // post-flight result surface quickly: every 5 minutes from 30 minutes
+  // before to 60 minutes after. 5 minutes = 12 calls/hour worst case, safely
+  // inside the 15/hour free quota. (An earlier version polled every 4 minutes
+  // for the whole 12-hour grace window — 180 calls against a 15/hour quota —
+  // so throttled fetches starved the widget and results only arrived on
+  // manual refresh.)
   readonly property bool nearT0: root.next !== null && root.next.precise
     && (root.next.netMs - root.nowMs) < 30 * 60000
-    && (root.next.netMs - root.nowMs) > -Model.LIFTOFF_GRACE_MS
+    && (root.next.netMs - root.nowMs) > -60 * 60000
 
   // Night-launch badge: the sky phase at the pad at T-0, reused from the
   // scene's own daylight source. Text-only, no emoji-font dependency.
@@ -251,7 +255,7 @@ Panel {
 
   Timer {
     id: refreshTimer
-    interval: root.nearT0 ? 4 * 60000 : root.refreshMinutes * 60000
+    interval: root.nearT0 ? 5 * 60000 : root.refreshMinutes * 60000
     repeat: true
     triggeredOnStart: true
     onTriggered: root.refreshNow()
