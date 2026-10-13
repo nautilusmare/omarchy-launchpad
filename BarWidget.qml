@@ -61,6 +61,7 @@ Panel {
   property bool inFlight: false
   property bool flashing: false
   property int flashTicks: 0
+  property bool expanded: false
   // Wall clock captured when a real hold starts; the panel countdown and the
   // scene freeze there until the hold releases.
   property double holdFreezeMs: 0
@@ -69,8 +70,15 @@ Panel {
   readonly property string sceneOverride: Model.sceneOverride(root.next)
   readonly property bool holdActive: root.sceneOverride === "hold"
 
-  onHoldActiveChanged: {
-    if (root.holdActive) root.holdFreezeMs = root.nowMs
+  onNextChanged: {
+    if (root.next !== null) {
+      root.holdFreezeMs = 0
+      root.expanded = false
+    }
+  }
+
+  onOpenedChanged: {
+    if (!root.opened) root.expanded = false
   }
 
   // Fast polling around a precise T-0 so holds, slips, liftoffs and the
@@ -454,6 +462,7 @@ Panel {
         if (t === "r" || t === "R") root.refreshNow()
         else if (t === "p" || t === "P") root.replay()
         else if (t === "w" || t === "W" || t === "\r" || t === "\n") root.watch()
+        else if (t === "e" || t === "E") root.expanded = !root.expanded
       }
 
       Flickable {
@@ -520,15 +529,24 @@ Panel {
               hAlign: Text.AlignHCenter
             }
 
-            ElidedText {
+            Text {
+              id: missionDesc
+              textFormat: Text.PlainText
               width: parent.width
               text: root.next ? root.next.missionBlurb : ""
               visible: text !== ""
               color: root.dim
-              pixelSize: Style.font.caption
-              hAlign: Text.AlignHCenter
-              wrap: true
-              maxLines: 2
+              font.family: root.fontFamily
+              font.pixelSize: Style.font.caption
+              horizontalAlignment: Text.AlignHCenter
+              wrapMode: Text.WordWrap
+              maximumLineCount: expanded ? 0 : 2
+              MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton
+                cursorShape: Qt.PointingHandCursor
+                onClicked: expanded = !expanded
+              }
             }
 
             Image {
